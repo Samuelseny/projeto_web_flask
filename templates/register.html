@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Cadastrar Usuário</h2>
+<form method="POST" action="/register">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <input type="text" name="loginUser" placeholder="Usuário" required>
+    <input type="password" name="senha" placeholder="Senha" required>
+    <input type="email" name="email" placeholder="E-mail" required>
+    <select name="tipoUser" required>
+        <option value="normal">Normal</option>
+        <option value="super">Super</option>
+    </select>
+    <button type="submit">Cadastrar</button>
+</form>
+<p><a href="{{ url_for('login') }}">Já possui uma conta? Faça login</a></p>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<div class="container">
+    <h2>Dashboard</h2>
+    <h3 class="centered-title">Produtos Cadastrados:</h3> <!-- Adicionei uma classe para centralizar -->
+    <div class="product-grid">
+        {% for product in products %}
+        <div class="product-card">
+            <p><strong>{{ product[1] }}</strong></p>
+            <p>Quantidade: {{ product[2] }}</p>
+            <p>Preço: {{ product[3] }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="actions">
+        <a class="button" href="{{ url_for('add_product') }}">Adicionar Produto</a>
+        <a class="button" href="{{ url_for('logout') }}">Logout</a>
+    </div>
+</div>
+{% endblock %}

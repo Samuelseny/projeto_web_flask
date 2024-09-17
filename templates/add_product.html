@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Adicionar Produto</h2>
+<form method="POST" action="/add_product">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <input type="text" name="nome" placeholder="Nome do Produto" required>
+    <input type="number" name="qtde" placeholder="Quantidade" required>
+    <input type="number" name="preco" placeholder="Preço" step="0.01" required>
+    <button type="submit">Adicionar</button>
+</form>
+<p><a href="{{ url_for('dashboard') }}">Voltar</a></p>
+{% endblock %}
