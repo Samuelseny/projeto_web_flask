@@ -5,9 +5,11 @@ from database import get_db_connection
 app = Flask(__name__)
 app.secret_key = 'samuelss'
 
+
 @app.route('/')
 def index():
     return render_template('login.html')
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -25,7 +27,7 @@ def login():
             flash('Usuário não encontrado!', 'error')
             return redirect(url_for('login'))
 
-        if user and check_password_hash(user[1], password):
+        if check_password_hash(user[1], password):
             session['username'] = username
             session['tipoUser'] = user[0]
             return redirect(url_for('dashboard'))
@@ -72,6 +74,7 @@ def register():
 @app.route('/dashboard')
 def dashboard():
     if 'username' not in session:
+        flash('Você precisa estar logado para acessar esta página.', 'error')
         return redirect(url_for('login'))
 
     conn = get_db_connection()
@@ -83,9 +86,11 @@ def dashboard():
 
     return render_template('dashboard.html', products=products)
 
+
 @app.route('/add_product', methods=['GET', 'POST'])
 def add_product():
     if 'username' not in session:
+        flash('Você precisa estar logado para acessar esta página.', 'error')
         return redirect(url_for('login'))
 
     if request.method == 'POST':
@@ -120,10 +125,12 @@ def add_product():
 
     return render_template('add_product.html')
 
+
 @app.route('/logout')
 def logout():
     session.clear()
     return redirect(url_for('login'))
+
 
 @app.route('/reset_password', methods=['GET', 'POST'])
 def reset_password():
@@ -133,6 +140,7 @@ def reset_password():
         return redirect(url_for('login'))
 
     return render_template('reset_password.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
