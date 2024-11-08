@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2>Remover Produto</h2>
+    <form method="POST">
+        <label for="produto_id">Escolha o Produto</label>
+        <select name="produto_id" id="produto_id" required>
+            {% for produto in produtos %}
+                <option value="{{ produto[0] }}">{{ produto[1] }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">Remover Produto</button>
+    </form>
+</div>
+{% endblock %}
+

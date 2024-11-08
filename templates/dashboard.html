@@ -1,22 +1,39 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% block content %}
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-<div class="container">
-    <h2>Dashboard</h2>
-    <h3 class="centered-title">Produtos Cadastrados:</h3> <!-- Adicionei uma classe para centralizar -->
-    <div class="product-grid">
-        {% for product in products %}
-        <div class="product-card">
-            <p><strong>{{ product[1] }}</strong></p>
-            <p>Quantidade: {{ product[2] }}</p>
-            <p>Preço: {{ product[3] }}</p>
+<head>
+    <title>Dashboard</title>
+</head>
+<body>
+    <div class="container">
+        <h1 class="centered-title">Dashboard</h1>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Quantidade</th>
+                <th>Preço</th>
+                <th>Ações</th>
+            </tr>
+            {% for product in products %}
+            <tr>
+                <td>{{ product[0] }}</td>
+                <td>{{ product[1] }}</td>
+                <td>{{ product[3] }}</td>
+                <td>R$ {{ product[4] }}</td>
+                <td>
+                    <a href="{{ url_for('sell_product', product_id=product[0]) }}">Vender</a>
+                    <a href="{{ url_for('remover_produto', produto_id=product[0]) }}">Remover</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        <div class="actions">
+            <a href="{{ url_for('add_product') }}" class="btn">Adicionar Produto</a>
+            <a href="{{ url_for('sales_report') }}" class="btn">Gerar Relatório</a>
+            <a href="{{ url_for('logout') }}" class="btn">Sair</a>
         </div>
-        {% endfor %}
     </div>
-    <div class="actions">
-        <a class="button" href="{{ url_for('add_product') }}">Adicionar Produto</a>
-        <a class="button" href="{{ url_for('logout') }}">Logout</a>
-    </div>
-</div>
+</body>
+</html>
 {% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Vender Produto</h1>
+  <form method="POST">
+    <label for="buyer_name">Nome do Comprador:</label>
+    <input type="text" id="buyer_name" name="buyer_name" required>
+
+    <label for="buyer_contact">Contato do Comprador:</label>
+    <input type="text" id="buyer_contact" name="buyer_contact" required>
+
+    <label for="quantity">Quantidade:</label>
+    <input type="number" id="quantity" name="quantity" min="1" max="{{ product[1] }}" required>
+
+    <button type="submit">Vender</button>
+  </form>
+
+  <a href="{{ url_for('dashboard') }}">Voltar para Dashboard</a>
+{% endblock %}

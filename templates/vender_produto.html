@@ -1,0 +1,24 @@
+<!-- vender_produto.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2>Vender Produto</h2>
+    <form method="POST">
+        <label for="produto_id">Escolha o Produto</label>
+        <select name="produto_id" id="produto_id" required>
+            {% for produto in produtos %}
+                <option value="{{ produto[0] }}">{{ produto[1] }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="comprador_nome">Nome do Comprador</label>
+        <input type="text" name="comprador_nome" required>
+
+        <label for="comprador_email">E-mail do Comprador</label>
+        <input type="email" name="comprador_email" required>
+
+        <button type="submit">Realizar Venda</button>
+    </form>
+</div>
+{% endblock %}
