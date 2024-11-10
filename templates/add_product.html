@@ -5,11 +5,12 @@
 
 <body>
     <form action="{{ url_for('add_product') }}" method="POST">
-        <input type="text" name="nome" placeholder="Nome do Produto" required>
-        <input type="number" name="qtde" placeholder="Quantidade" required>
-        <input type="number" name="preco" placeholder="Preço" required>
+        <input type="text" name="nome" placeholder="Nome do Produto" required autocomplete="new-password">
+        <input type="number" name="qtde" placeholder="Quantidade" required autocomplete="new-password">
+        <input type="number" name="preco" placeholder="Preço" required autocomplete="new-password">
         <button type="submit">Cadastrar Produto</button>
     </form>
     <a href="{{ url_for('dashboard') }}">Voltar para Dashboard</a>
 </body>
 {% endblock %}
+</html>

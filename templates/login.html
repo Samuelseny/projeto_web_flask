@@ -1,20 +1,17 @@
 {% extends "base.html" %}
 
-{% block content %}
+{% block title %}Login{% endblock %}
 
-    <title>Login</title>
-</head>
-<body>
-    <h2>Login</h2>
-    <form action="/login" method="POST">
-        <label for="loginUser">Usuário:</label>
-        <input type="text" id="loginUser" name="loginUser" required><br><br>
-        <label for="senha">Senha:</label>
-        <input type="password" id="senha" name="senha" required><br><br>
-        <input type="submit" value="Login">
-    </form>
-    <br>
-    <p><a href="/cadastro">Cadastrar</a></p>
-</body>
-</html>
+{% block content %}
+<form method="POST" action="{{ url_for('login') }}">
+    <label for="loginUser">Nome de usuário:</label>
+    <input type="text" id="loginUser" name="loginUser" placeholder="Nome de usuário" required autocomplete="new-password">
+
+    <label for="senha" autocomplete="off">Senha:</label>
+    <input type="password" id="senha" name="senha" placeholder="Senha" autocomplete="new-password">
+
+    <button type="submit">Entrar</button>
+</form>
+<p>Esqueceu sua senha? <a href="{{ url_for('reset_password') }}">Recupere aqui</a></p>
+<p>Não tem uma conta? <a href="{{ url_for('register') }}">Registre-se</a></p>
 {% endblock %}

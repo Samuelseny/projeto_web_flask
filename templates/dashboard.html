@@ -1,39 +1,53 @@
 {% extends "base.html" %}
 
 {% block content %}
-<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-</head>
+
 <body>
-    <div class="container">
-        <h1 class="centered-title">Dashboard</h1>
+<div class="container text-center">
+    <h1 class="my-5">DASHBOARD</h1>
+
+
+    <h2>Produtos Cadastrados</h2>
+
+    {% if products %}
         <table>
-            <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th>Quantidade</th>
-                <th>Preço</th>
-                <th>Ações</th>
-            </tr>
-            {% for product in products %}
-            <tr>
-                <td>{{ product[0] }}</td>
-                <td>{{ product[1] }}</td>
-                <td>{{ product[3] }}</td>
-                <td>R$ {{ product[4] }}</td>
-                <td>
-                    <a href="{{ url_for('sell_product', product_id=product[0]) }}">Vender</a>
-                    <a href="{{ url_for('remover_produto', produto_id=product[0]) }}">Remover</a>
-                </td>
-            </tr>
-            {% endfor %}
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Quantidade</th>
+                    <th>Preço</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                    <tr>
+                        <td>{{ product[0] }}</td>
+                        <td>{{ product[1] }}</td>
+                        <td>{{ product[3] }}</td>
+                        <td>{{ product[4] }}</td>
+                        <td>
+                            <a href="{{ url_for('sell_product', product_id=product[0]) }}">Vender</a>
+                            <a href="{{ url_for('confirm_remove_product', product_id=product[0]) }}">Remover</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
         </table>
-        <div class="actions">
-            <a href="{{ url_for('add_product') }}" class="btn">Adicionar Produto</a>
-            <a href="{{ url_for('sales_report') }}" class="btn">Gerar Relatório</a>
-            <a href="{{ url_for('logout') }}" class="btn">Sair</a>
-        </div>
+    {% else %}
+        <p>Não há produtos cadastrados.</p>
+    {% endif %}
+
+     <div class="buttons-container">>
+        <a href="{{ url_for('sales_report') }}" class="btn btn-primary ">Gerar Relatório</a>
+        <a href="{{ url_for('login') }}" class="btn btn-danger ">Sair</a>
+        <a href="{{ url_for('add_product') }}" class="btn btn-success ">Adicionar Produto</a>
     </div>
+
+</div>
 </body>
-</html>
 {% endblock %}

@@ -1,23 +1,38 @@
-{% extends "base.html" %}
-
-{% block title %}Registrar{% endblock %}
+{% extends 'base.html' %}
 
 {% block content %}
-<form method="POST" action="{{ url_for('register') }}">
-    <label for="loginUser">Nome de usuário:</label>
-    <input type="text" id="loginUser" name="loginUser" placeholder="Nome de usuário" required>
+    <h2>Registro de Usuário</h2>
 
-    <label for="senha">Senha:</label>
-    <input type="password" id="senha" name="senha" placeholder="Senha" required>
-
-    <label for="tipoUser">Tipo de Usuário:</label>
-    <select id="tipoUser" name="tipoUser" required>
-        <option value="normal">Normal</option>
-        <option value="super">Super</option>
-    </select>
-
-    <button type="submit">Registrar</button>
+        <form method="POST" action="{{ url_for('register') }}">
+    <div class="form-group">
+        <label for="loginUser">Nome de Usuário:</label>
+        <input type="text" id="loginUser" name="loginUser" required class="form-control" autocomplete="new-password">
+    </div>
+    <div class="form-group">
+        <label for="email">E-mail:</label>
+        <input type="email" id="email" name="email" required class="form-control" autocomplete="new-password">
+    </div>
+    <div class="form-group">
+        <label for="senha">Senha:</label>
+        <input type="password" id="senha" name="senha" required class="form-control" autocomplete="new-password">
+    </div>
+    <div class="form-group">
+        <label for="tipo_usuario">Tipo de Usuário:</label>
+        <select id="tipo_usuario" name="tipo_usuario" required class="form-control">
+            <option value="normal">Usuário Normal</option>
+            <option value="super">Super Usuário</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Registrar</button>
 </form>
 
-<p>Já tem uma conta? <a href="{{ url_for('login') }}">Faça login</a></p>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul>
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
 {% endblock %}

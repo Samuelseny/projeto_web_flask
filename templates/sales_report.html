@@ -1,11 +1,18 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container">
-    <h2>Gerar Relatório de Vendas</h2>
-    <form method="POST">
-        <label for="produto">Escolha o Produto</label>
-        <select name="product_id" id="produto" required>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório de Vendas</title>
+</head>
+<body>
+    <h1>Relatório de Vendas</h1>
+
+    <form method="POST" action="/sales_report">
+        <label for="product_id">Selecione o Produto:</label>
+        <select name="product_id" id="product_id" required>
             {% for product in products %}
                 <option value="{{ product[0] }}">{{ product[1] }}</option>
             {% endfor %}
@@ -14,8 +21,15 @@
     </form>
 
     {% if fig_html %}
-        <h3>Gráfico de Vendas</h3>
-        {{ fig_html | safe }}
+        <div>
+            {{ fig_html|safe }}
+        </div>
     {% endif %}
-</div>
+
+    {% if message %}
+        <p>{{ message }}</p>
+    {% endif %}
+</body>
+</html>
+
 {% endblock %}
