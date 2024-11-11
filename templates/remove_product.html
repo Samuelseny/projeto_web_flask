@@ -1,6 +1,6 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
+{% extends "base.html" %}
+
+{% block content %}
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Remover Produto</title>
@@ -9,9 +9,9 @@
 <body>
    <div class="container">
        <h2>Confirmar Remoção do Produto</h2>
-       <p>Você tem certeza que deseja remover o produto <strong>{{ product[1] }}</strong>?</p> <!-- Exibe o nome do produto -->
-       <p><strong>Preço:</strong> R$ {{ product[4] }}</p> <!-- Exibe o preço -->
-       <p><strong>Quantidade:</strong> {{ product[3] }}</p> <!-- Exibe a quantidade -->
+       <p>Você tem certeza que deseja remover o produto <strong>{{ product[1] }}</strong>?</p>
+       <p><strong>Preço:</strong> R$ {{ product[4] }}</p>
+       <p><strong>Quantidade:</strong> {{ product[3] }}</p>
 
        <form action="{{ url_for('confirm_remove_product', product_id=product[0]) }}" method="POST">
            <button type="submit">Confirmar Remoção</button>
@@ -20,5 +20,5 @@
        <a href="{{ url_for('dashboard') }}">Cancelar</a>
    </div>
 </body>
-</html>
+{% endblock %}
 

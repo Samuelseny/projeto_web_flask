@@ -42,7 +42,7 @@ def register():
         email = request.form['email']
         senha = request.form['senha']
 
-        tipo_usuario = request.form.get('tipo_usuario', 'normal')  # 'normal' é o valor padrão se não for enviado
+        tipo_usuario = request.form.get('tipo_usuario', 'normal')
 
         conn = get_db_connection()
         cur = conn.cursor()
@@ -212,16 +212,13 @@ def confirm_remove_product(product_id):
     conn = get_db_connection()
     cursor = conn.cursor()
 
-    # Verificando se o produto existe
     cursor.execute('SELECT * FROM produtos WHERE id = %s', (product_id,))
     product = cursor.fetchone()
 
     if product:
         if request.method == 'POST':
-            # Remover as vendas associadas ao produto
             cursor.execute('DELETE FROM vendas WHERE produto_id = %s', (product_id,))
 
-            # Remover o produto
             cursor.execute('DELETE FROM produtos WHERE id = %s', (product_id,))
             conn.commit()
             cursor.close()
@@ -248,7 +245,7 @@ def logout():
 def reset_password():
     if request.method == 'POST':
         email = request.form['email']
-        session['reset_email'] = email  # Salva o e-mail na sessão para uso posterior
+        session['reset_email'] = email
         flash(f'Um e-mail de verificação foi enviado para {email}.', 'info')
         return redirect(url_for('new_password'))
     return render_template('reset_password.html')

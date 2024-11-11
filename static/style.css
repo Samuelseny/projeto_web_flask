@@ -31,7 +31,7 @@ body {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     color: #333333;
     max-width: 1200px;
-    border: 1px solid #d0d0d0; /* novo contorno */
+    border: 1px solid #d0d0d0;
 }
 
 .centered-title {
@@ -153,13 +153,12 @@ h1 {
 }
 
 .btn-danger:hover {
-    background-color: #c82333; /* Vermelho mais escuro quando passar o mouse */
+    background-color: #c82333;
     border-color: #bd2130;
 }
 
-/* Estilo do botão Adicionar Produto (verde) */
 .btn-success {
-    background-color: #28a745; /* Cor de fundo verde */
+    background-color: #28a745;
     border-color: #28a745;
 }
 
@@ -188,7 +187,6 @@ h1.my-5 {
     margin-top: 10px;
 }
 
-/* Estilo para tabelas */
 table {
     width: 100%;
     border-collapse: collapse;
