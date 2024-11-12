@@ -3,7 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from database import get_db_connection
 import pandas as pd
 import plotly.express as px
-from datetime import datetime
+from datetime import datetime, timedelta
 
 app = Flask(__name__)
 app.secret_key = 'samuelss'
@@ -162,50 +162,47 @@ def sales_report():
     cur.execute('SELECT id, nome FROM produtos')
     products = cur.fetchall()
 
+    graph = None
+
     if request.method == 'POST':
         product_id = request.form['product_id']
 
         cur.execute('SELECT data_venda, quantidade FROM vendas WHERE produto_id = %s', (product_id,))
         sales_data = cur.fetchall()
 
-        if sales_data:
-            df = pd.DataFrame(sales_data, columns=['Data', 'Quantidade'])
-
-            df['Data'] = pd.to_datetime(df['Data'])
-
-            df = df.groupby('Data').agg({'Quantidade': 'sum'}).reset_index()
-
-            all_dates = pd.date_range(start=df['Data'].min(), end=df['Data'].max(), freq='D')
-
-            df = df.set_index('Data').reindex(all_dates, fill_value=0).reset_index()
-            df = df.rename(columns={'index': 'Data'})
-
-            fig = px.line(df, x='Data', y='Quantidade', title='Relatório de Vendas')
-
-            fig.update_yaxes(range=[0, 10])
-
-            fig.update_xaxes(
-                tickmode='array',
-                tickvals=df['Data'],
-                ticktext=df['Data'].dt.strftime('%d/%m')
-            )
-
-            fig_html = fig.to_html(full_html=False)
-
-            cur.close()
-            conn.close()
-            return render_template('sales_report.html', fig_html=fig_html, products=products)
-
+        if not sales_data:
+            flash("Nenhuma venda encontrada para o produto selecionado.")
         else:
-            cur.close()
-            conn.close()
-            return render_template('sales_report.html', message="Nenhuma venda encontrada para este produto",
-                                   products=products)
+            df = pd.DataFrame(sales_data, columns=['Data', 'Quantidade'])
+            df['Data'] = pd.to_datetime(df['Data'], format='%Y-%m-%d')
 
-    cur.close()
-    conn.close()
-    return render_template('sales_report.html', products=products)
+            end_date = datetime.today()
+            start_date = end_date - timedelta(days=6)
 
+            df = df[(df['Data'] >= start_date) & (df['Data'] <= end_date)]
+
+            if df.empty:
+                flash("Nenhuma venda encontrada para os últimos 7 dias.")
+            else:
+                df = df.groupby('Data', as_index=False)['Quantidade'].sum()
+
+                all_dates = pd.date_range(start=start_date, end=end_date, freq='D')
+                df = df.set_index('Data').reindex(all_dates, fill_value=0).reset_index()
+                df.columns = ['Data', 'Quantidade']
+
+                fig = px.line(df, x='Data', y='Quantidade', title='Relatório de Vendas (Últimos 7 Dias)',
+                              markers=True, line_shape='linear')
+
+                fig.update_yaxes(range=[0, df['Quantidade'].max() + 5])
+                fig.update_xaxes(
+                    tickmode='array',
+                    tickvals=df['Data'],
+                    ticktext=df['Data'].dt.strftime('%d-%m-%Y')
+                )
+
+                graph = fig.to_html(full_html=False)
+
+    return render_template('sales_report.html', products=products, graph=graph)
 
 @app.route('/confirm_remove_product/<int:product_id>', methods=['GET', 'POST'])
 def confirm_remove_product(product_id):
